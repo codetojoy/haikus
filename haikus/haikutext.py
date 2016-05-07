@@ -80,8 +80,8 @@ class HaikuText(object):
         """
         find a haiku at the beginning of the text
         """
-        syllable_map = self.syllable_map()
-        return self.find_haiku(syllable_map)
+        syllable_list = list(self.syllable_map())
+        return self.find_haiku(syllable_list)
 
     def get_haikus(self):
         """
@@ -90,7 +90,6 @@ class HaikuText(object):
         haikus = []
         syllable_map = self.syllable_map()
         syllable_list = list(syllable_map)
-
         for i in range(len(syllable_list)):
             portion = syllable_list[i:]
             if (sum(word[0] for word in portion) >= 17):
@@ -111,14 +110,15 @@ class HaikuText(object):
             cumulative.append(cumulative[-1] + w[0])
         cumulative = cumulative[1:]
         is_haiku = set(cumulative).intersection(haiku) == set(haiku)
-        
+       
         if is_haiku:
             lookup = dict((v,k) for k, v in enumerate(cumulative))
             enum_lookup = list(enumerate(lookup))
             start = 0
             lines = []
+            syllable_list = list(syllable_map)
             for line in haiku:
-                section = syllable_map[start:lookup[line]+1]
+                section = syllable_list[start:lookup[line]+1]
                 words = [s[1] for s in section]
                 lines.append(' '.join(words))
                 try:
