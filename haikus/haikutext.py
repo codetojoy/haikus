@@ -52,7 +52,7 @@ class HaikuText(object):
         """
         Get the syllable count for the given word, according to WORD_DICT
         """
-        word = word.encode('ascii', 'ignore').strip().lower()
+        word = word.strip().lower()
         try:
             matches = WORD_DICT[word]
             for tree in matches:
@@ -89,9 +89,10 @@ class HaikuText(object):
         """
         haikus = []
         syllable_map = self.syllable_map()
+        syllable_list = list(syllable_map)
 
-        for i in range(len(syllable_map)):
-            portion = syllable_map[i:]
+        for i in range(len(syllable_list)):
+            portion = syllable_list[i:]
             if (sum(word[0] for word in portion) >= 17):
                 haiku = self.find_haiku(portion)
                 if haiku:
